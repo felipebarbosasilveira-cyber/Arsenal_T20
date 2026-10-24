@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arsenal Tormenta20</title>
+    <style>
+
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #1e1e24; color: #e0e0e0; margin: 0; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; background: #2b2b36; padding: 30px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.7); border-top: 5px solid #d32f2f; }
+        h1 { color: #f44336; text-align: center; margin-top: 0; font-size: 32px; text-transform: uppercase; letter-spacing: 2px; }
+        
+        .filtros { display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; }
+        input, select { padding: 12px; font-size: 16px; border-radius: 6px; border: 1px solid #555; background-color: #3f3f4e; color: white; outline: none; }
+        input { flex: 2; }
+        select { flex: 1; cursor: pointer; }
+        input:focus, select:focus { border-color: #f44336; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 15px; }
+        th { background-color: #d32f2f; color: white; padding: 12px; text-align: left; position: sticky; top: 0; z-index: 10; text-transform: uppercase; font-size: 13px; letter-spacing: 1px; }
+        td { padding: 12px; border-bottom: 1px solid #3f3f4e; }
+        
+        .linha-item { background: #2b2b36; cursor: pointer; transition: background 0.2s; }
+        .linha-item:hover { background: #3a3a47; }
+        
+        .cat-simples { color: #8bc34a; }
+        .cat-marcial { color: #4db8ff; }
+        .cat-exotica { color: #ff9800; }
+        .cat-fogo { color: #f44336; }
+
+        .linha-desc { display: none; background: #22222b; }
+        .desc-conteudo { padding: 20px; border-left: 4px solid #f44336; }
+        .desc-texto { font-style: italic; color: #ccc; line-height: 1.6; margin-bottom: 10px; white-space: pre-line; }
+        .desc-rodape { font-size: 12px; color: #777; display: flex; justify-content: space-between; border-top: 1px dashed #444; padding-top: 10px; }
+        
+        .tag-prop { background: #f44336; color: white; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-right: 5px; text-transform: uppercase; }
+        .icone-expandir { color: #f44336; font-size: 18px; font-weight: bold; text-align: center; }
+    </style>
+</head>
+<body>
+
+
+<div class="container">
+    <h1>⚔️ Arsenal Tormenta20</h1>
+    <a href="https://felipebarbosasilveira-cyber.github.io/Gerador_Tesouros_T20/" target="_blank" class="btn-navegacao">Gerador de tesouros</a>
+    <h2>👉(Ainda não ta pronto)👈</h2>
+    <!-- Barra de Ferramentas -->
+    <div class="filtros">
+        <input type="text" id="buscaNome" placeholder="Buscar item por nome ou descrição..." onkeyup="renderizarTabela()">
+        
+        <select id="filtroTipo" onchange="atualizarFiltros()">
+            <option value="armas">Armas</option>
+            <option value="armaduras">Armaduras & Escudos</option>
+            <option value="municoes">Munições</option>
+        </select>
+
+        <select id="filtroEmp" onchange="renderizarTabela()">
+            <option value="Todas">Todas as Empunhaduras</option>
+            <option value="Leve">Leve</option>
+            <option value="Uma Mão">Uma Mão</option>
+            <option value="Duas Mãos">Duas Mãos</option>
+        </select>
+
+        <select id="filtroCat" onchange="renderizarTabela()"></select>
+    </div>
+
+    <!-- Tabela Vazia (O JavaScript vai preencher isso) -->
+    <table>
+        <thead id="cabecalho-tabela"></thead>
+        <tbody id="corpo-tabela"></tbody>
+    </table>
+</div>
+
+<script src="equipamentos.js"></script>
+
+<script>
+    // Define as cores dinâmicas das categorias
+    function corCategoria(cat) {
+        if (!cat) return "";
+        let c = cat.toLowerCase();
+        if (c.includes("simples") || c.includes("leve") || c.includes("escudo")) return "cat-simples";
+        if (c.includes("marcial") || c.includes("pesada")) return "cat-marcial";
+        if (c.includes("exótica") || c.includes("exotica")) return "cat-exotica";
+        if (c.includes("fogo")) return "cat-fogo";
+        return "";
+    }
+
+    function atualizarFiltros(){
+
+        const tipo = document.getElementById("filtroTipo").value;
+        const selectCat = document.getElementById("filtroCat");
+        const selectEmp = document.getElementById("filtroEmp");
+
+        if (tipo === "armas") {
+
+            selectCat.style.display = "";
+            selectEmp.style.display = "";
+
+            selectCat.innerHTML = `
+            <option value="Todas">Todas as Categorias</option>
+            <option value="Arma Simples">Simples</option>
+            <option value="Arma Marcial">Marcial</option>
+            <option value="Arma Exótica">Exótica</option>
+            <option value="Arma de Fogo">Fogo</option>
+        `;
+        }else if (tipo === "armaduras"){
+
+            selectCat.style.display = "";
+            selectEmp.style.display = "none";
+
+            selectCat.innerHTML = `
+            <option value="Todas">Todas as Categorias</option>
+            <option value="Armadura Leve">Leve</option>
+            <option value="Armadura Pesada">Pesada</option>
+            <option value="Escudo">Escudo</option>
+            `;
+        }else {
+
+            selectCat.style.display = "none";
+            selectEmp.style.display = "none";
+        }
+
+        renderizarTabela();
+
+    }
+
+    function alternarDescricao(id) {
+        let desc = document.getElementById('desc-' + id);
+        let icone = document.getElementById('icone-' + id);
+        if (desc.style.display === 'table-row') {
+            desc.style.display = 'none';
+            icone.innerText = '▼';
+        } else {
+            desc.style.display = 'table-row';
+            icone.innerText = '▲';
+        }
+    }
+
+    // A função principal que monta a tabela
+    function renderizarTabela() {
+        const tipo = document.getElementById("filtroTipo").value;
+        const emp = document.getElementById("filtroEmp").value;
+        const cat = document.getElementById("filtroCat").value;
+        const termoBusca = document.getElementById("buscaNome").value.toLowerCase();
+        const cabecalho = document.getElementById("cabecalho-tabela");
+        const corpo = document.getElementById("corpo-tabela");
+        
+        corpo.innerHTML = "";
+        
+        if (tipo === "armas") {
+            cabecalho.innerHTML = `<tr><th>Nome</th><th>Categoria</th><th>Emp.</th><th>Alcance</th><th>Dano</th><th>Crítico</th><th>Tipo</th><th>Espaços</th><th>Preço</th><th style="width:30px;"></th></tr>`;
+        } else if (tipo === "armaduras") {
+            cabecalho.innerHTML = `<tr><th>Nome</th><th>Categoria</th><th>Defesa</th><th>Penalidade</th><th>Espaços</th><th>Preço</th><th style="width:30px;"></th></tr>`;
+        } else if (tipo === "municoes") {
+            cabecalho.innerHTML = `<tr><th>Nome</th><th>Quantidade</th><th>Espaços</th><th>Preço</th><th style="width:30px;"></th></tr>`;
+        }
+
+        let dadosFiltrados = bdEquipamentos[tipo].filter(item => {
+
+            let passaBusca = (item.nome && item.nome.toLowerCase().includes(termoBusca)) || 
+                   (item.descricao && item.descricao.toLowerCase().includes(termoBusca));
+
+            let passaEmp = (tipo !== "armas") || (emp === "Todas") || (item.empunhadura === emp);
+            let passCat = (tipo === "municoes") || (cat === "Todas") || (item.categoria === cat);
+
+            return passaBusca && passaEmp && passCat;
+        });
+
+        dadosFiltrados.forEach((item, index) => {
+            let trItem = document.createElement("tr");
+            trItem.className = "linha-item";
+            trItem.onclick = () => alternarDescricao(index); 
+            
+            let htmlLinha = "";
+            let nomeFormatado = `<strong>${item.nome || "—"}</strong>`;
+            
+            if (tipo === "armas") {
+                htmlLinha = `<td>${nomeFormatado}</td><td class="${corCategoria(item.categoria)}">${item.categoria || "—"}</td><td>${item.empunhadura || "—"}</td><td>${item.alcance || "—"}</td><td><strong>${item.dano || "—"}</strong></td><td>${item.critico || "—"}</td><td>${item.tipo || "—"}</td><td>${item.espacos || "0"}</td><td style="color:#fbc02d;">${item.preco || "—"}</td>`;
+            } else if (tipo === "armaduras") {
+                htmlLinha = `<td>${nomeFormatado}</td><td class="${corCategoria(item.categoria)}">${item.categoria || "—"}</td><td style="color:#4db8ff; font-weight:bold;">${item.defesa || "—"}</td><td style="color:#f44336;">${item.penalidade || "0"}</td><td>${item.espacos || "0"}</td><td style="color:#fbc02d;">${item.preco || "—"}</td>`;
+            } else if (tipo === "municoes") {
+                htmlLinha = `<td>${nomeFormatado}</td><td>${item.quantidade || "—"}</td><td>${item.espacos || "0"}</td><td style="color:#fbc02d;">${item.preco || "—"}</td>`;
+            }
+
+            trItem.innerHTML = htmlLinha + `<td class="icone-expandir" id="icone-${index}">▼</td>`;
+            corpo.appendChild(trItem);
+
+            let trDesc = document.createElement("tr");
+            trDesc.id = `desc-${index}`;
+            trDesc.className = "linha-desc";
+            
+            let numColunas = tipo === "armas" ? 10 : (tipo === "armaduras" ? 7 : 5);
+            let tagsHtml = "";
+            
+            if (item.propriedades && item.propriedades.trim() !== "") {
+                item.propriedades.split(",").forEach(tag => {
+                    tagsHtml += `<span class="tag-prop">${tag.trim()}</span>`;
+                });
+                tagsHtml = `<div style="margin-bottom:15px;">${tagsHtml}</div>`;
+            }
+            
+            let refLivro = item.livro ? `Fonte: ${item.livro} p.${item.pagina || "?"}` : "Fonte desconhecida";
+            
+            trDesc.innerHTML = `<td colspan="${numColunas}"><div class="desc-conteudo">${tagsHtml}<div class="desc-texto">${item.descricao || "Sem descrição."}</div><div class="desc-rodape"><span>${refLivro}</span></div></div></td>`;
+            corpo.appendChild(trDesc);
+        });
+        
+        if (dadosFiltrados.length === 0) {
+            corpo.innerHTML = `<tr><td colspan="10" style="text-align:center; padding:30px; color:#aaa;">Nenhum item encontrado.</td></tr>`;
+        }
+    }
+
+    window.onload = atualizarFiltros;
+</script>
+
+</body>
+</html>
