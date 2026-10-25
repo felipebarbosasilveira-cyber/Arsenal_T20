@@ -6,10 +6,31 @@
     <title>Arsenal Tormenta20</title>
     <style>
 
+        @font-face {
+            font-family: 'Tormenta20';
+            src: url(Tormenta.ttf);
+        }
+
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #1e1e24; color: #e0e0e0; margin: 0; padding: 20px; }
         .container { max-width: 1000px; margin: 0 auto; background: #2b2b36; padding: 30px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.7); border-top: 5px solid #d32f2f; }
-        h1 { color: #f44336; text-align: center; margin-top: 0; font-size: 32px; text-transform: uppercase; letter-spacing: 2px; }
+        h1 { font-family:Tormenta20; color: #f44336; text-align: center; margin-top: 0; font-size: 40px; text-transform: uppercase; letter-spacing: 2px; }
         
+        .fonte-titulo{font-family: 'Tormenta20';}
+        .rodape-site{font-size: 13px; color: #777; border-top: 1px dashed #444; padding-top: 15px; text-align: center; margin-top: 40px;}
+        .link{display: inline-block; 
+            margin-bottom: 15px; 
+            padding: 10px; 
+            background-color: #d32f2f; color: #ffffff; 
+            font-family: 'Tormenta20';
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: 0.1s;
+        }
+        .link:hover{ background-color: #f44336;}
+        .link:active{transform: scale(0.95);}
+
+
         .filtros { display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; }
         input, select { padding: 12px; font-size: 16px; border-radius: 6px; border: 1px solid #555; background-color: #3f3f4e; color: white; outline: none; }
         input { flex: 2; }
@@ -42,7 +63,7 @@
 
 <div class="container">
     <h1>⚔️ Arsenal Tormenta20</h1>
-    <a href="https://felipebarbosasilveira-cyber.github.io/Gerador_Tesouros_T20/" target="_blank" class="btn-navegacao">Gerador de tesouros</a>
+    <a href="https://felipebarbosasilveira-cyber.github.io/Gerador_Tesouros_T20/" target="_blank" class="link">Gerador de tesouros T20</a>
     <h2>👉(Ainda não ta pronto)👈</h2>
     <!-- Barra de Ferramentas -->
     <div class="filtros">
@@ -69,6 +90,8 @@
         <thead id="cabecalho-tabela"></thead>
         <tbody id="corpo-tabela"></tbody>
     </table>
+
+
 </div>
 
 <script src="equipamentos.js"></script>
@@ -213,5 +236,13 @@
     window.onload = atualizarFiltros;
 </script>
 
+<div class="rodape-site">
+
+    <p>A fonte de texto utilizada no título foi disponibilizada pelo repositório <span class="fonte-titulo"><a href="https://github.com/bolognini/helladarion-codex/blob/master/static/fonts/Tormenta.ttf" target="_blank" class="btn-navegacao">helladarion-codex</a></span></p>
+    <p><span class="fonte-titulo"><strong>Tormenta20</strong></span> é uma criação de Leonel Caldela, Marcelo Cassaro, Guilherme Dei Svaldi, Rafael Dei Svaldi e J. M. Trevisan (Jambô Editora).</p>
+
+</div>
+
 </body>
+
 </html>
